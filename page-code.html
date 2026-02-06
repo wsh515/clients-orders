@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+
+<style>
+/* التنسيقات الأساسية للـ Swiper */
+.swiper { width: 100%; padding-bottom: 30px; overflow: hidden; border-radius: 0 !important; }
+.swiper-slide { height: 300px; overflow: hidden; border-radius: 0 !important; }
+.swiper-slide img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; opacity: 1 !important; }
+.swiper-pagination-bullet-active { background: #154a87; width: 25px; border-radius: 5px; }
+ .content .content-entry img {
+    border-radius: 0 !important;
+}
+
+/* حل الاندماج باستخدام CSS Columns - مستقر جداً */
+#reviews-container {
+    display: block;
+    column-count: 3; /* 3 أعمدة للكمبيوتر */
+    column-gap: 20px;
+}
+
+.review-card {
+    display: inline-block; /* ضروري لمنع انكسار الكارد */
+    width: 100%;
+    margin-bottom: 20px;
+    break-inside: avoid; /* يمنع انقسام الكارد بين عمودين */
+    transition: transform 0.3s ease;
+    background-color: white;
+}
+
+/* الاستجابة للجوال والتابلت */
+@media (max-width: 1024px) { #reviews-container { column-count: 2; } }
+@media (max-width: 768px) { #reviews-container { column-count: 1; } }
+
+.star-rating { color: #fbbf24; }
+.glightbox-container { z-index: 999999 !important; }
+</style>
+
+<div class="min-h-screen py-10">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">طلبات العملاء</h2>
+    <h3 class="text-xl font-semibold text-center mb-6 text-gray-600">آراء العملاء والطلبات</h3>
+
+    <div class="max-w-md mx-auto mb-10">
+      <input id="searchInput" type="text" placeholder="ابحث باسم العميل أو التعليق..." 
+             class="w-full border rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+             oninput="searchReviews(this.value)">
+    </div>
+
+    <div id="reviews-container"></div>
+
+    <div id="load-more-wrapper" class="text-center mt-12">
+      <button onclick="renderReviews()" id="load-more-btn" 
+              class="text-white font-bold py-3 px-10 rounded-full shadow-lg transition duration-300"
+              style="background: linear-gradient(90deg,rgba(198,13,54,1) 0%,rgba(21,74,135,1) 100%);">
+        عرض المزيد من الآراء
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let reviewsData = [];
+let filteredData = [];
+let currentIndex = 0;
+const itemsToShow = 12;
+let lightbox;
+
+function initLightbox() {
+    if (lightbox) lightbox.destroy();
+    lightbox = GLightbox({
+        selector: '.glightbox',
+        loop: true,
+        openEffect: 'zoom',
+        closeEffect: 'zoom',
+        counter: true,
+        touchNavigation: true,
+        dragAutoSnap: true
+    });
+}
+
+fetch("https://raw.githubusercontent.com/wsh515/clients-orders/main/reviews.json")
+  .then(res => res.json())
+  .then(data => {
+    reviewsData = data; 
+    renderReviews();
+  })
+  .catch(err => console.error("فشل تحميل التقييمات:", err));
+
+function searchReviews(keyword) {
+  keyword = keyword.trim().toLowerCase();
+  filteredData = keyword === "" ? [] : reviewsData.filter(r => 
+    r.name.toLowerCase().includes(keyword) || r.comment.toLowerCase().includes(keyword)
+  );
+  currentIndex = 0;
+  document.getElementById('reviews-container').innerHTML = '';
+  document.getElementById('load-more-wrapper').style.display = 'block';
+  renderReviews();
+}
+
+function generateStars(rating) {
+  return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+}
+
+function renderReviews() {
+  const container = document.getElementById('reviews-container');
+  const sourceData = (filteredData.length || document.getElementById('searchInput').value !== "") ? filteredData : reviewsData;
+  const nextSet = sourceData.slice(currentIndex, currentIndex + itemsToShow);
+
+  nextSet.forEach(review => {
+    const hasImages = review.images && review.images.length > 0;
+    const card = document.createElement('div');
+    card.className = "review-card current-batch p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4 opacity-0";
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-bold text-lg text-gray-900">${review.name}</h3>
+          <span class="star-rating text-xl">${generateStars(review.rating)}</span>
+        </div>
+        <span class="text-sm text-gray-400">${review.date}</span>
+      </div>
+      <p class="text-gray-600 leading-relaxed">${review.comment}</p>
+      ${hasImages ? `
+      <div class="swiper mySwiper-${review.id}">
+        <div class="swiper-wrapper">
+          ${review.images.map(img => `
+            <div class="swiper-slide">
+              <a href="${img}" class="glightbox" data-gallery="gallery-${review.id}" data-type="image">
+                    <img src="${img}" alt="طلب العميل" loading="lazy">
+              </a>
+            </div>
+          `).join('')}
+        </div>
+        <div class="swiper-pagination swiper-pagination-${review.id}"></div>
+      </div>
+      ` : ''}
+    `;
+
+    container.appendChild(card);
+
+    if(hasImages) {
+        new Swiper(`.mySwiper-${review.id}`, {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          pagination: { el: `.swiper-pagination-${review.id}`, clickable: true },
+        });
+    }
+  });
+
+  initLightbox();
+
+  anime({
+    targets: '.current-batch',
+    translateY: [30, 0],
+    opacity: [0, 1],
+    delay: anime.stagger(100),
+    easing: 'easeOutExpo',
+    complete() {
+      document.querySelectorAll('.current-batch').forEach(el => el.classList.remove('current-batch'));
+    }
+  });
+
+  currentIndex += itemsToShow;
+  if (currentIndex >= sourceData.length) {
+    document.getElementById('load-more-wrapper').style.display = 'none';
+  }
+}
+</script>
