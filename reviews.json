@@ -3765,15 +3765,5 @@
         "rating": 5,
         "date": "2026-02-08",
         "images": []
-    },
-    {
-        "id": 409,
-        "name": "kparts",
-        "comment": "good",
-        "rating": 5,
-        "date": "2026-02-14",
-        "images": [
-            "https://github.com/wsh515/clients-orders/blob/main/kparts/11899_g7_b.jpg?raw=true"
-        ]
     }
 ]
