@@ -4043,5 +4043,29 @@
             "https://github.com/wsh515/clients-orders/blob/main/Abduallah%20alaskr/WhatsApp%20Image%202026-02-16%20at%209.40.00%20PM%20(4).jpeg?raw=true",
             "https://github.com/wsh515/clients-orders/blob/main/Abduallah%20alaskr/WhatsApp%20Image%202026-02-17%20at%201.39.42%20AM.jpeg?raw=true"
         ]
+    },
+     {
+        "id": 436,
+        "name": "Abdullah Al-Jaghthami",
+        "comment": "تعاملت معهم بشراء مجموعه قطع لسيارتي مثل الرديتر وكمبروسور المكيف وقطع غيار اخرى والحمدلله التجربه رائعه والسعر فارق بشكل كبير",
+        "rating": 5,
+        "date": "2025-08-16",
+        "images": []
+    },
+     {
+        "id": 437,
+        "name": "stranger",
+        "comment": "الحمدلله تم شراء عداد ديجتال ثري دي وتركيبه وبرمجته عند الاخ وليد بنفس اليوم سيارتي جينسس GV70 2024",
+        "rating": 5,
+        "date": "2025-06-28",
+        "images": []
+    },
+     {
+        "id": 438,
+        "name": "Abbas Al-Saqer",
+        "comment": "تم شراء فلتر قير وعصا نور وفلتر بنزين ووصلت بوقت ممتاز",
+        "rating": 5,
+        "date": "2023-02-25",
+        "images": []
     }
 ]
