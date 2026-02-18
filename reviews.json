@@ -4077,5 +4077,26 @@
         "images": [
             "https://github.com/wsh515/clients-orders/blob/main/Abbas%20Al-Saqer/WhatsApp%20Image%202026-02-18%20at%203.30.36%20AM.jpeg?raw=true"
         ]
+    },
+     {
+        "id": 439,
+        "name": "محمد الحجي",
+        "comment": "تم شراء وبرمجة كرت تشغيل على جينسس G80 SPORT",
+        "rating": 5,
+        "date": "2024-06-21",
+        "images": [
+            "https://github.com/wsh515/clients-orders/blob/main/%D9%85%D8%AD%D9%85%D8%AF%20%D8%A7%D9%84%D8%AD%D8%AC%D9%8A/WhatsApp%20Image%202026-02-18%20at%205.35.29%20PM.jpeg?raw=true",
+            "https://github.com/wsh515/clients-orders/blob/main/%D9%85%D8%AD%D9%85%D8%AF%20%D8%A7%D9%84%D8%AD%D8%AC%D9%8A/WhatsApp%20Image%202026-02-18%20at%204.36.00%20AM.jpeg?raw=true"
+        ]
+    },
+     {
+        "id": 440,
+        "name": "Omar Al Sabeel",
+        "comment": "السلام عليكم تم طلب توفير ريموت G80 2026 من كوريا بلون التازمن بلو وكاله وتم برمجته على موديل 22 عند الاخ وليد ويعمل بشكل ممتاز",
+        "rating": 5,
+        "date": "2024-05-17",
+        "images": [
+            "https://github.com/wsh515/clients-orders/blob/main/Omar%20Al%20Sabeel/WhatsApp%20Image%202026-02-18%20at%204.48.33%20PM.jpeg?raw=true"
+        ]
     }
 ]
